@@ -1,0 +1,45 @@
+<html>
+	<head>
+		<style type="text/css">
+			.original_cost_value{ display:none;}
+		</style>
+		<script type="text/javascript" src="jquery.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				var default_currency = 'GBP';
+				var selected_currency = 'GBP';
+				
+				var currencies = new Array();
+				// TODO: currencies should be looked up from a seperate file
+				currencies['GBP'] = { 'currency': '&pound;', 'exchange_rate': 1 };
+				currencies['USD'] = { 'currency': '&#36;', 'exchange_rate': 1.6140 };
+				
+				function convert_currencies()
+				{
+					$('.cost').each(function(index){
+						$('.cost_currency', this).html(currencies[selected_currency]['currency']);
+						$('.cost_value', this).text( ($('.original_cost_value', this).text() * currencies[selected_currency]['exchange_rate']).toFixed(2));
+					});
+				}
+				
+				if(selected_currency != default_currency ) {
+					convert_currencies();
+				}
+				
+				$('.change_currency').click(function(){
+					selected_currency = $(this).text();
+					convert_currencies();
+					return false;
+				});
+				
+			});
+			
+			
+		</script>
+	</head>
+	<body>
+		<p><a href="#" class="change_currency">USD</a> | <a href="#" class="change_currency">GBP</a></p>
+		<p class="cost"><span class="cost_currency">&pound;</span><span class="original_cost_value">100.00</span><span class="cost_value">100.00</span></p>
+		
+	</body>
+</html>
